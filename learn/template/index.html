@@ -9,13 +9,24 @@
 </head>
 
 <body>
-    <div id="app">{{message}}</div>
+    <div id="app"></div>
 </body>
 <script>
     const app = new Vue({
         el: "#app",
         data: {
             message: "Hello Vue!"
+        },
+        render(c) {
+            return c('div', {
+                attrs: {
+                    id: 'app'
+                }
+            }, [c('div', {
+                attrs: {
+                    id: 'child'
+                }
+            }, this.message)])
         }
     })
 </script>

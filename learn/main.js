@@ -1,6 +1,17 @@
 import Vue from "./src/core/instance"
-console.log(Vue);
 
-new Vue({
-    el: '#app'
+window.app = new Vue({
+    el: '#app',
+    data() {
+        return {
+            message: "Hello vue"
+        }
+    },
+    render(c) {
+        return c('div', {
+            attrs: {
+                id: 'app'
+            }
+        }, this.message)
+    }
 })
