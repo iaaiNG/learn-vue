@@ -1,55 +1,55 @@
-import { initState } from './state'
-import { initRender } from './render'
-import { mountComponent } from "./lifecycle"
+import { initState } from "./state";
+import { initRender } from "./render";
+import { mountComponent } from "./lifecycle";
+import { patch } from "../vdom/patch"
 
 function Vue(options) {
-    this._init(options)
+    this._init(options);
 }
 
 Vue.prototype._init = function (options) {
-    let vm = this
-    vm.$options = options
-    vm._self = vm
+    let vm = this;
+    vm.$options = options;
 
-    // initLifecycle(vm)
-    // initEvents(vm)
-    initRender(vm)
-    // callHook(vm, 'beforeCreate')
-    // initInjections(vm) // resolve injections before data/props
-    initState(vm)
-    // initProvide(vm) // resolve provide after data/props
-    // callHook(vm, 'created')
+    initRender(vm);
+    initState(vm);
 
     if (vm.$options.el) {
-        vm.$mount(vm.$options.el)
+        vm.$mount(vm.$options.el);
     }
-}
+};
 
 // public mount method
-Vue.prototype.$mount = function (
-    el,
-    hydrating
-) {
-    el = document.querySelector(el)
-
-    const options = this.$options
-    // resolve template/el and convert to render function
-    if (!options.render) {
-        // 巴拉巴拉
-    }
-
-    return mountComponent(this, el, hydrating)
-}
+Vue.prototype.$mount = function (el) {
+    el = document.querySelector(el);
+    return mountComponent(this, el);
+};
 
 Vue.prototype._render = function () {
+    const vm = this;
+    const { render } = vm.$options;
+    let vnode = render.call(vm, vm.$createElement);
+    return vnode;
+};
+Vue.prototype._update = function (vnode) {
     const vm = this
-    const { render } = vm.$options
+    vm._vnode = vnode
 
-    // render self
-    let vnode = render.call(vm, vm.$createElement)
+    vm.$el = vm.__patch__(vm.$el, vnode, undefined, false /* removeOnly */)
 
-    
-    return vnode
-}
+    // restoreActiveInstance()
+    // // update __vue__ reference
+    // if (prevEl) {
+    //     prevEl.__vue__ = null
+    // }
+    // if (vm.$el) {
+    //     vm.$el.__vue__ = vm
+    // }
 
-export default Vue
+    // if (vm.$vnode && vm.$parent && vm.$vnode === vm.$parent._vnode) {
+    //     vm.$parent.$el = vm.$el
+    // }
+};
+Vue.prototype.__patch__ = patch
+
+export default Vue;

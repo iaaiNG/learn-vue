@@ -17,8 +17,6 @@ export function proxy(target, sourceKey, key) {
 }
 
 export function initState(vm) {
-    vm._watchers = []
-
     initData(vm)
 }
 
@@ -27,7 +25,6 @@ function initData(vm) {
     data = vm._data = typeof data === 'function'
         ? data()
         : data || {}
-
     // proxy data on instance
     const keys = Object.keys(data)
     let i = keys.length
@@ -35,6 +32,5 @@ function initData(vm) {
         let key = keys[i]
         proxy(vm, `_data`, key)
     }
-    // observe(data, true /* asRootData */)
 }
 

@@ -12,6 +12,10 @@ window.app = new Vue({
             attrs: {
                 id: 'app'
             }
-        }, this.message)
+        }, [c('div', {
+            attrs: {
+                id: 'app'
+            }
+        }, this.message)])
     }
 })

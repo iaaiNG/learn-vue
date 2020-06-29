@@ -4,9 +4,9 @@ export default class Watcher {
         expOrFn,
         cb,
         options,
-        isRenderWatcher) {
+        isRenderWatcher
+    ) {
         this.vm = vm
-
         this.getter = expOrFn
         this.get()
     }
